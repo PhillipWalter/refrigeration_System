@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL_VAR" Id="{bfa1e441-34ab-431e-bd1c-bba2646486f7}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	
+	
+
+	// Actual Temperature
+	fTempActual: REAL := 0.5;
+	// Set Temperature
+	fTempSet: REAL := 0.2;
+	// Door Status
+	bDoorOpen: BOOL := FALSE;
+	// Compressor Running Time After Which an Alarm Sounds
+	tlmAlarmThreshold: TIME := T#30s;
+	// Time from door opening after which alarm sounds
+	tDoorOPenThreshold: TIME := T#10s;
+	// Control Signal
+	xCompressor: BOOL := FALSE;
+	// Control Signal
+	xSignal: BOOL := FALSE;
+	// Status Message
+	xLamp: BOOL := FALSE;
+	// Ouput for controlling the compressor
+	bCompressor: BOOL := FALSE;
+	// Output for controlling signal
+	bSingal: BOOL := FALSE;
+	// Output for controlling the lamp
+	bLamp: BOOL := FALSE;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

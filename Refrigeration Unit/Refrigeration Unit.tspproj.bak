@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.47">
+	<Project ProjectGUID="{3B74EC91-DFE3-4E2D-A758-542EBA10BCC5}" Target64Bit="true" ShowHideConfigurations="#x106">
+		<Plc>
+			<Project GUID="{8ED602B6-CDED-4ACE-8ACD-FCF1775A3B20}" Name="Refrigeration Controller Program" PrjFilePath="Refrigeration Controller Program\Refrigeration Controller Program.plcproj" TmcFilePath="Refrigeration Controller Program\Refrigeration Controller Program.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>
+		</Plc>
+	</Project>
+</TcSmProject>

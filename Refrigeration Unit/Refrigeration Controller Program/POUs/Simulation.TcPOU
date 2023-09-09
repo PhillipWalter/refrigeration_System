@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Simulation" Id="{deb8cfd8-3920-43e1-a144-6dd126acf177}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Simulation
+VAR
+	fbT1 : TON; //The temperature is decreased on a time delay, when the compressor has been activated
+	tCooling : TIME := T#500MS; 
+	bReduceTemp : BOOL;//Signal for decreasing the temperature
+	fbT2 : TON; //The temperature is increased on a time delay, when the compressor has been deactivated
+	tEnvironment : TIME := T#2S; //Delay time when the door is closed
+	tEnvironmentDoorOpen : TIME := T#1S; //Delay time when the door is opened
+	bRaiseTemp : BOOL; //Signal for increasing the temperature
+	tImTemp : TIME; //Delay time
+	nCounter : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//After the compressor has been activated due to fTempActual being above the setpoint plus hysteresis, the temperature decreases
+//The temperature is decremented by 0.1 degree Celsius per cycle after a delay of P_Cooling
+
+IF GVL_VAR.bCompressor THEN
+	fbT1(IN:=GVL_VAR.bCompressor, PT := tCooling, Q => bReduceTemp);
+	IF bReduceTemp THEN
+		GVL_VAR.fTempActual := GVL_VAR.fTempActual - 0.1;
+		fbT1(IN:= FALSE);
+	END_IF
+END_IF
+
+//If the door is open, the warning will occur faster; SEL selects tEnvironmentDoorOpen
+
+tImTemp := SEL(GVL_VAR.bDoorOpen, tEnvironment, tEnvironmentDoorOpen);
+
+//If the compressor is not in operation the cooling chamber must start heating up again
+//The temperature is incremented by 0.1 degrees per cycle after a delay of tImTemp
+
+fbT2(IN:= TRUE, PT:= tImTemp, Q=> bRaiseTemp);
+IF bRaiseTemp THEN
+	GVL_VAR.fTempActual := GVL_VAR.fTempActual + 0.1;
+	fbT2(IN:=FALSE); //this resets the timer by taking the input LOW
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="Simulation">
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="39" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
